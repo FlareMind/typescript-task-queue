@@ -1,4 +1,6 @@
 # typescript-task-queue
+[![Build Status](https://travis-ci.org/FlareMind/typescript-task-queue.svg?branch=master)](https://travis-ci.org/FlareMind/typescript-task-queue.svg?branch=master)
+
 A small class used to run multiple async tasks after each other.
 
 ### Installation
