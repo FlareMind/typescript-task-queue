@@ -1,7 +1,5 @@
-import {ITask} from "./task";
-
 export interface ITaskQueue {
-    append(task : (ITask | ITask[])) : void;
+    enqueue(task : (Function | Function[])) : void;
     start() : void;
     stop() : void;
 }

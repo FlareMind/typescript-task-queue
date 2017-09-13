@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "A class used to execute tasks in order.",
   "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "repository": "https://github.com/FlareMind/task-queue.git",
   "author": "Flare Mind <info@flaremind.com>",
   "license": "MIT",
   "scripts": {
-    "test": "mocha -r ts-node/register test/*.ts"
+    "test": "mocha -r ts-node/register test/*.ts",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/chai": "^4.0.4",

@@ -2,13 +2,12 @@ import "core-js/es6/promise"
 import "core-js/es6/object"
 
 import {ITaskQueue} from "./interfaces/task-queue";
-import {ITask} from "./interfaces/task";
 import {ITaskQueueConfig} from "./interfaces/task-queue-config";
 import {Observable} from "typescript-observable";
 import {StartEvent, StopEvent} from "./Events";
 
 export class TaskQueue extends Observable implements ITaskQueue {
-    private tasks : ITask[] = [];
+    private tasks : Function[] = [];
     private isRunning : boolean = false;
     private isStopped : boolean = false;
     private config : ITaskQueueConfig;
@@ -17,7 +16,7 @@ export class TaskQueue extends Observable implements ITaskQueue {
      *
      * @param {ITaskQueueConfig} config
      */
-    constructor(config : ITaskQueueConfig) {
+    constructor(config? : ITaskQueueConfig) {
         super();
 
         this.config = Object.assign({}, {
@@ -29,9 +28,9 @@ export class TaskQueue extends Observable implements ITaskQueue {
     /**
      * Add a new task to the end of the queue. A single element or a list can be added. If config.autoRun then this
      * function will start a the execution of the tasks.
-     * @param {ITask | ITask[]} task is the task that will be added to the queue
+     * @param {Function | Function[]} task is the task that will be added to the queue
      */
-    append(task: ITask | ITask[]): void {
+    enqueue(task: Function | Function[]): void {
 
         // Check if the task is an array of tasks
         if (Array.isArray(task)) {
@@ -44,7 +43,7 @@ export class TaskQueue extends Observable implements ITaskQueue {
         }
 
         // Check if autoRun is true
-        if (this.config.autoRun) {
+        if (this.config.autorun) {
             this.start();
         }
     }
@@ -78,11 +77,11 @@ export class TaskQueue extends Observable implements ITaskQueue {
             this.isRunning = true;
 
             // Get the first task
-            let task : ITask = this.tasks.shift() || {run: () => {}};
+            let task : Function = this.tasks.shift() || (() => {});
 
             // Run the task decoupled and start the next
             Promise.resolve().then(() => {
-                task.run();
+                task();
                 this.execute();
             });
 

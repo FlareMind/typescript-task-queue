@@ -1,29 +1,24 @@
 import "mocha"
 import {expect} from "chai"
 
-import {TaskQueue} from "../src/task-queue";
-import {ITask} from "../src/interfaces/task";
+import {TaskQueue} from "../src/index";
 
 const NUM_TEST_ELEMENTS = 100;
 
 describe('TaskQueue', () => {
     let i : number,
         taskQueue : TaskQueue,
-        tasks : ITask[];
+        tasks : Function[];
 
     describe('Run tasks', () => {
 
         beforeEach(() => {
             i = 0;
 
-            taskQueue = new TaskQueue({
-                autoRun: false
-            });
+            taskQueue = new TaskQueue();
 
-            tasks = Array.apply(null, new Array(NUM_TEST_ELEMENTS)).map(() => ({
-                run: () => {
-                    i++;
-                }
+            tasks = Array.apply(null, new Array(NUM_TEST_ELEMENTS)).map(() => (() => {
+                i++;
             }));
         });
 
@@ -36,14 +31,14 @@ describe('TaskQueue', () => {
                 }
             });
 
-            taskQueue.append(tasks);
+            taskQueue.enqueue(tasks);
             taskQueue.start();
         });
 
         it('should not block other code', () => {
             let stop : number = Date.now() + 25;
 
-            taskQueue.append(tasks);
+            taskQueue.enqueue(tasks);
             taskQueue.start();
             while (Date.now() < stop) {}
             expect(i).to.equal(0);
@@ -56,13 +51,11 @@ describe('TaskQueue', () => {
             i = 0;
 
             taskQueue = new TaskQueue({
-                autoRun: true
+                autorun: true
             });
 
-            tasks = Array.apply(null, new Array(NUM_TEST_ELEMENTS)).map(() => ({
-                run: () => {
-                    i++;
-                }
+            tasks = Array.apply(null, new Array(NUM_TEST_ELEMENTS)).map(() => (() => {
+                i++;
             }));
         });
 
@@ -75,13 +68,13 @@ describe('TaskQueue', () => {
                 }
             });
 
-            taskQueue.append(tasks);
+            taskQueue.enqueue(tasks);
         });
 
         it('should not block other code', () => {
             let stop : number = Date.now() + 25;
 
-            taskQueue.append(tasks);
+            taskQueue.enqueue(tasks);
             while (Date.now() < stop) {}
             expect(i).to.equal(0);
         });
@@ -91,32 +84,27 @@ describe('TaskQueue', () => {
         beforeEach(() => {
             i = 0;
 
-            tasks = Array.apply(null, new Array(NUM_TEST_ELEMENTS)).map(() => ({
-                run: () => {
-                    i++;
-                }
+            tasks = Array.apply(null, new Array(NUM_TEST_ELEMENTS)).map(() => (() => {
+                i++;
             }));
         });
 
         it('should be possible to stop the execution', done => {
 
-            taskQueue = new TaskQueue({
-                autoRun: false
-            });
+            taskQueue = new TaskQueue();
 
             taskQueue.on('stop', data => {
                 if (data.wasStopped) {
                     done();
                 }
             });
-            taskQueue.append(tasks);
+            taskQueue.enqueue(tasks);
             taskQueue.start();
             taskQueue.stop();
         });
 
         it('should not be possible to stop execution when stoppable is false', done => {
             taskQueue = new TaskQueue({
-                autoRun: false,
                 stoppable: false
             });
 
@@ -125,7 +113,7 @@ describe('TaskQueue', () => {
                     done();
                 }
             });
-            taskQueue.append(tasks);
+            taskQueue.enqueue(tasks);
             taskQueue.start();
             taskQueue.stop();
         });

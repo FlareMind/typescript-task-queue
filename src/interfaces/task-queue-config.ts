@@ -1,4 +1,4 @@
 export interface ITaskQueueConfig {
-    autoRun? : boolean;
+    autorun? : boolean;
     stoppable?: boolean;
 }
