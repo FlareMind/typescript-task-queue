@@ -4,7 +4,7 @@ import "core-js/es6/object"
 import {ITaskQueue} from "./interfaces/task-queue";
 import {ITaskQueueConfig} from "./interfaces/task-queue-config";
 import {Observable} from "typescript-observable";
-import {StartEvent, StopEvent} from "./Events";
+import {StartEvent, StopEvent} from "./events";
 
 export class TaskQueue extends Observable implements ITaskQueue {
     private tasks : Function[] = [];
