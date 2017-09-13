@@ -1,0 +1,25 @@
+{
+  "name": "typescript-task-queue",
+  "version": "1.0.0",
+  "description": "A class used to execute tasks in order.",
+  "main": "./dist/index.js",
+  "repository": "https://github.com/FlareMind/task-queue.git",
+  "author": "Flare Mind <info@flaremind.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha -r ts-node/register test/*.ts"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.43",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.2"
+  },
+  "dependencies": {
+    "@types/core-js": "^0.9.43",
+    "core-js": "^2.5.1",
+    "typescript-observable": "^1.0.11"
+  }
+}
