@@ -4,3 +4,6 @@ node_modules/
 yarn-error.log
 yarn.lock
 .gitignore
+.idea/
+.travis.yml
+tsconfig.json
