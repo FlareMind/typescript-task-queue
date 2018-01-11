@@ -7,10 +7,10 @@ import {Observable} from "typescript-observable";
 import {StartEvent, StopEvent} from "./task-events";
 
 export class TaskQueue extends Observable implements ITaskQueue {
-    private tasks : Function[] = [];
-    private isRunning : boolean = false;
-    private isStopped : boolean = false;
-    private config : ITaskQueueConfig;
+    protected tasks : Function[] = [];
+    protected isRunning : boolean = false;
+    protected isStopped : boolean = false;
+    protected config : ITaskQueueConfig;
 
     /**
      *
